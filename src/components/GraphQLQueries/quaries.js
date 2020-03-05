@@ -11,44 +11,59 @@ const coordsQuery = gql`
 `;
 export default coordsQuery;
 
+// export const layerQuery1 = gql`
+//   {
+//     data {
+//       id
+//       childLayers
+//       services {
+//         service
+//         options {
+//           delay
+//           draw {
+//             polyline {
+//               shapeOptions {
+//                 color
+//               }
+//               showLength
+//             }
+//             polygon {
+//               shapeOptions {
+//                 color
+//               }
+//             }
+//             rectangle
+//             circle
+//             marker
+//             circlemarker
+//           }
+//         }
+//       }
+//       objects {
+//         endpoint
+//         types {
+//           id
+//           format {
+//             color
+//             dashArray
+//             dashOffset
+//             opacity
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
 export const layerQuery = gql`
   {
-    data {
+    layers {
       id
-      childLayers
-      services {
-        service
-        options {
-          delay
-          draw {
-            polyline {
-              shapeOptions {
-                color
-              }
-              showLength
-            }
-            polygon {
-              shapeOptions {
-                color
-              }
-            }
-            rectangle
-            circle
-            marker
-            circlemarker
-          }
-        }
-      }
       objects {
-        endpoint
+        endpont
         types {
           id
-          format {
-            color
-            dashArray
-            dashOffset
-            opacity
-          }
+          format
         }
       }
     }

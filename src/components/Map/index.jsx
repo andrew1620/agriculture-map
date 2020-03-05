@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import L from 'leaflet';
-import { Map as LeafletMap, WMSTileLayer, FeatureGroup, ImageOverlay } from 'react-leaflet';
+import {
+  Map as LeafletMap,
+  WMSTileLayer,
+  FeatureGroup,
+  ImageOverlay,
+  Rectangle
+} from 'react-leaflet';
 
 import './index.css';
 
@@ -10,12 +16,22 @@ import CompositeLayer from '../CompositeLayer';
 import WithWebSocketConnection from '../WithWebSocketConnection';
 import FlightTasksPanel from '../FlightTasksPanel';
 
-import withHocs from '../GraphQLQueries/queriesHoc';
+import { useQuery } from '@apollo/react-hooks';
+import { layerQuery } from '../GraphQLQueries/quaries';
 
-const Map = ({ data }) => {
+const Map = () => {
   const [options, setOptions] = useState(null);
-  // console.log('coordsData ---', data.coords); // Те самые координаты в виде двух массивов
-  console.log('data ---', data.data);
+
+  // let rectangle = [[450, 100], [500, 200]];
+  const [rectangle, setRectangle] = useState([[450, 100], [500, 200]]);
+  const { data, loading, error } = useQuery(layerQuery);
+
+  useEffect(() => {
+    if (data) {
+      setRectangle(data.layers[0].objects.types[0].format.rectangle);
+    }
+  }, [data]);
+
   const points = {
     origin: [38.793698930945325, -108.02341966559042],
     bbox: [[38.793698930945325, -108.02341966559042], [38.795677118398544, -108.02178074362031]],
@@ -37,6 +53,8 @@ const Map = ({ data }) => {
   // const bounds = [[0, 0], [870, 1280]];
   const bounds = [[0, 0], [600, 1280]];
 
+  // const rectangle = rectangle2 || [[300, 100], [350, 200]];
+
   return (
     options && (
       <LeafletMap
@@ -52,12 +70,13 @@ const Map = ({ data }) => {
         useFlyTo
       >
         <ImageOverlay url="http://localhost:3005/static/map.png" bounds={bounds} />
+        <Rectangle bounds={rectangle} color="red" />
       </LeafletMap>
     )
   );
 };
 
-export default withHocs(Map);
+export default Map;
 // useEffect(() => {
 //   const requestMapConfig = configUrl => fetch(configUrl).then(response => response.json());
 //   requestMapConfig(settings.urls.config)
