@@ -8,7 +8,7 @@ import './index.css';
 import Map from '../Map';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql'
+  uri: 'http://localhost:3006/graphql'
 });
 
 const App = () => (

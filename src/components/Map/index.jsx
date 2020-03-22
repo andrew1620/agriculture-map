@@ -7,6 +7,7 @@ import {
   ImageOverlay,
   Rectangle
 } from 'react-leaflet';
+import { EditControl } from 'react-leaflet-draw';
 
 import './index.css';
 
@@ -18,6 +19,7 @@ import FlightTasksPanel from '../FlightTasksPanel';
 
 import { useQuery } from '@apollo/react-hooks';
 import { layerQuery } from '../GraphQLQueries/quaries';
+import { Subscription } from 'react-apollo';
 
 const Map = () => {
   const [options, setOptions] = useState(null);
@@ -29,6 +31,7 @@ const Map = () => {
   useEffect(() => {
     if (data) {
       setRectangle(data.layers[0].objects.types[0].format.rectangle);
+      console.log(JSON.stringify(data.layers[0]));
     }
   }, [data]);
 
@@ -50,10 +53,7 @@ const Map = () => {
     });
   }, []);
 
-  // const bounds = [[0, 0], [870, 1280]];
   const bounds = [[0, 0], [600, 1280]];
-
-  // const rectangle = rectangle2 || [[300, 100], [350, 200]];
 
   return (
     options && (
@@ -69,7 +69,17 @@ const Map = () => {
         crs={L.CRS.Simple}
         useFlyTo
       >
+        <FeatureGroup>
+          <EditControl
+            position="topright"
+            onCreated={e => console.log(e)}
+            draw={{
+              rectangle: true
+            }}
+          />
+        </FeatureGroup>
         <ImageOverlay url="http://localhost:3005/static/map.png" bounds={bounds} />
+
         <Rectangle bounds={rectangle} color="red" />
       </LeafletMap>
     )
