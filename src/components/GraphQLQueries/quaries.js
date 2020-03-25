@@ -5,7 +5,7 @@ export const layerQuery = gql`
     layers {
       id
       objects {
-        endpont
+        endpoint
         types {
           id
           format

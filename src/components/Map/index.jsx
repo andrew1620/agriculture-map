@@ -20,18 +20,20 @@ import FlightTasksPanel from '../FlightTasksPanel';
 import { useQuery } from '@apollo/react-hooks';
 import { layerQuery } from '../GraphQLQueries/quaries';
 import { Subscription } from 'react-apollo';
+import ChangeLayer from '../GraphQLQueries/mutations';
+import GetChangedLayer from '../GraphQLQueries/subscription';
 
 const Map = () => {
   const [options, setOptions] = useState(null);
 
   // let rectangle = [[450, 100], [500, 200]];
-  const [rectangle, setRectangle] = useState([[450, 100], [500, 200]]);
+  const [rectangle, setRectangle] = useState([[100, 100], [500, 200]]);
   const { data, loading, error } = useQuery(layerQuery);
 
   useEffect(() => {
     if (data) {
       setRectangle(data.layers[0].objects.types[0].format.rectangle);
-      console.log(JSON.stringify(data.layers[0]));
+      // console.log(JSON.stringify(data.layers[0]));
     }
   }, [data]);
 
@@ -81,6 +83,11 @@ const Map = () => {
         <ImageOverlay url="http://localhost:3005/static/map.png" bounds={bounds} />
 
         <Rectangle bounds={rectangle} color="red" />
+        {/* <button onClick={() => alert('hi')} style={{ zIndex: '5', border: '1px solid red' }}>
+          Mutate
+        </button> */}
+        <ChangeLayer />
+        <GetChangedLayer />
       </LeafletMap>
     )
   );
