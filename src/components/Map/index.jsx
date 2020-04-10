@@ -33,7 +33,7 @@ const Map = () => {
   useEffect(() => {
     if (data) {
       setRectangle(data.layers[0].objects.types[0].format.rectangle);
-      // console.log(JSON.stringify(data.layers[0]));
+      // console.log(data);
     }
   }, [data]);
 

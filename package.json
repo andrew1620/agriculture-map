@@ -4,6 +4,7 @@
   "private": false,
   "dependencies": {
     "apollo-boost": "^0.4.7",
+    "apollo-link-ws": "^1.0.19",
     "classnames": "^2.2.6",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
@@ -25,7 +26,8 @@
     "redux-observable": "^1.0.0",
     "reselect": "^4.0.0",
     "rxjs": "^6.3.3",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "subscriptions-transport-ws": "^0.9.16"
   },
   "scripts": {
     "start": "react-scripts start",

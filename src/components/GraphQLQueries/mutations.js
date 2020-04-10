@@ -58,6 +58,6 @@ const newLayer = {
   ],
   objects: {
     endpoint: 'real_data:detect_info_2-line',
-    types: [{ id: '1', format: { rectangle: [[50000, 500000], [50050, 50000]] } }]
+    types: [{ id: '1', format: { rectangle: [[300, 100], [350, 200]] } }]
   }
 };

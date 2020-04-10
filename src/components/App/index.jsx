@@ -7,20 +7,20 @@ import './index.css';
 
 import Map from '../Map';
 
-const client = new ApolloClient({
-  uri: 'http://localhost:3006/graphql'
-});
+// const client = new ApolloClient({
+//   uri: 'http://localhost:3006/graphql'
+// });
 
 const App = () => (
-  <ApolloProvider client={client}>
-    <div className="map-application">
-      <div className="map-application-content map-application-fragment">
-        <div className="content-container">
-          <Map />
-        </div>
+  // <ApolloProvider client={client}>
+  <div className="map-application">
+    <div className="map-application-content map-application-fragment">
+      <div className="content-container">
+        <Map />
       </div>
     </div>
-  </ApolloProvider>
+  </div>
+  //</ApolloProvider>
 );
 
 export default App;
