@@ -9,6 +9,8 @@ import { EditControl } from 'react-leaflet-draw';
 import { setLocalisationDraw } from './helpers';
 
 import { createObject, changeObjects, removeObjects } from '../../store/edit/actions';
+import ChangeLayer, { changeLayer2, CHANGE_LAYER } from '../GraphQLQueries/mutations';
+import { useMutation } from 'react-apollo';
 
 const EditableLayerService = ({
   layer,
@@ -18,11 +20,17 @@ const EditableLayerService = ({
   pushChangedObjects,
   pushRemovedObjects
 }) => {
+  const [changeLayer, { data }] = useMutation(CHANGE_LAYER);
+
   useEffect(() => {
     setLocalisationDraw(L.drawLocal);
   }, []);
 
   function onCreateObject(createdLayer) {
+    console.log('**** --- ', createdLayer);
+    window.createdLayer = createdLayer;
+    changeLayer2(createdLayer, changeLayer);
+
     console.log(JSON.stringify(createdLayer.toGeoJSON()));
     pushCreatedObject({
       json: createdLayer.toGeoJSON()
@@ -59,7 +67,8 @@ const EditableLayerService = ({
         onEdited={({ layers: editedLayers }) => onEditObjects(editedLayers)}
         onDeleted={({ layers: removedLayers }) => onRemoveObjects(removedLayers)}
       />
-      {children()}
+      {/* {children()} */}
+      {children}
     </FeatureGroup>
   );
 };

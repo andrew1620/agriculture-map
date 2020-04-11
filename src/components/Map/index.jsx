@@ -5,7 +5,8 @@ import {
   WMSTileLayer,
   FeatureGroup,
   ImageOverlay,
-  Rectangle
+  Rectangle,
+  LayersControl
 } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
@@ -22,6 +23,7 @@ import { layerQuery } from '../GraphQLQueries/quaries';
 import { Subscription } from 'react-apollo';
 import ChangeLayer from '../GraphQLQueries/mutations';
 import GetChangedLayer from '../GraphQLQueries/subscription';
+import EditableLayerService from '../EditableLayerService';
 
 const Map = () => {
   const [options, setOptions] = useState(null);
@@ -57,13 +59,13 @@ const Map = () => {
 
   const bounds = [[0, 0], [600, 1280]];
 
+  const { BaseLayer } = LayersControl;
+
   return (
     options && (
       <LeafletMap
         id="root-map"
-        // bounds={options.bbox}
         maxBounds={bounds}
-        // center={options.origin}
         center={[500, 500]}
         zoom={0}
         zoomControl={false}
@@ -71,41 +73,49 @@ const Map = () => {
         crs={L.CRS.Simple}
         useFlyTo
       >
-        <FeatureGroup>
+        <LayersControl position="topright">
+          <BaseLayer checked name="First map">
+            <ImageOverlay url="http://localhost:3001/static/map.jpg" bounds={bounds} />
+          </BaseLayer>
+          <BaseLayer name="Second map">
+            <ImageOverlay url="http://localhost:3001/static/map2.jpg" bounds={bounds} />
+          </BaseLayer>
+        </LayersControl>
+
+        {/* <FeatureGroup>
           <EditControl
             position="topright"
             onCreated={e => console.log(e)}
             draw={{
-              rectangle: true
+              rectangle: true,
+              polyline: false,
+              circle: false,
+              circlemarker: false,
+              polygon: false
             }}
           />
-        </FeatureGroup>
-        <ImageOverlay url="http://localhost:3005/static/map.png" bounds={bounds} />
-
-        <Rectangle bounds={rectangle} color="red" />
-        {/* <button onClick={() => alert('hi')} style={{ zIndex: '5', border: '1px solid red' }}>
-          Mutate
-        </button> */}
-        <ChangeLayer />
-        <GetChangedLayer />
+          <Rectangle bounds={rectangle} color="red" />
+        </FeatureGroup> */}
+        <EditableLayerService
+          options={{
+            draw: {
+              rectangle: true,
+              polyline: false,
+              circle: false,
+              circlemarker: false,
+              polygon: false
+            }
+          }}
+          children={() => alert('hi')}
+        >
+          <GetChangedLayer />
+          <Rectangle bounds={rectangle} color="red" />
+          <Rectangle bounds={[[515, 436], [475, 397]]} color="red" />
+        </EditableLayerService>
+        {/* <ChangeLayer /> */}
       </LeafletMap>
     )
   );
 };
 
 export default Map;
-// useEffect(() => {
-//   const requestMapConfig = configUrl => fetch(configUrl).then(response => response.json());
-//   requestMapConfig(settings.urls.config)
-//     .then(({ origin: [xO, yO], bbox: [luBbox, rbBbox], wms, layers }) => {
-//       setOptions({
-//         origin: new L.LatLng(xO, yO),
-//         bbox: new L.LatLngBounds(luBbox, rbBbox),
-//         wms,
-//         layers
-//       });
-//     })
-//     .catch(err => {
-//       throw err;
-//     });
-// }, []);
