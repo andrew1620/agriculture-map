@@ -34,7 +34,7 @@ const GetChangedLayer = ({ repoFullName }) => (
       console.log('changedLayer --- ', data);
       if (!loading) {
         return data.layerChanged.objects.types.map(object => (
-          <Rectangle bounds={object.format.rectangle} color="red" />
+          <Rectangle key={object.id} bounds={object.format.rectangle} color="red" />
         ));
       } else {
         return <h4>Loading</h4>;

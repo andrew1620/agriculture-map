@@ -81,21 +81,7 @@ const Map = () => {
             <ImageOverlay url="http://localhost:3001/static/map2.jpg" bounds={bounds} />
           </BaseLayer>
         </LayersControl>
-
-        {/* <FeatureGroup>
-          <EditControl
-            position="topright"
-            onCreated={e => console.log(e)}
-            draw={{
-              rectangle: true,
-              polyline: false,
-              circle: false,
-              circlemarker: false,
-              polygon: false
-            }}
-          />
-          <Rectangle bounds={rectangle} color="red" />
-        </FeatureGroup> */}
+        {/* Добавил отображение объектов через контейнер */}
         <EditableLayerService
           options={{
             draw: {
@@ -104,13 +90,14 @@ const Map = () => {
               circle: false,
               circlemarker: false,
               polygon: false
-            }
+            },
+            collapsed: false
           }}
           children={() => alert('hi')}
         >
           <GetChangedLayer />
-          <Rectangle bounds={rectangle} color="red" />
-          <Rectangle bounds={[[515, 436], [475, 397]]} color="red" />
+          {/* <Rectangle bounds={rectangle} color="red" />
+          <Rectangle bounds={[[515, 436], [475, 397]]} color="red" /> */}
         </EditableLayerService>
         {/* <ChangeLayer /> */}
       </LeafletMap>
