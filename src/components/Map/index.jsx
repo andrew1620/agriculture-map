@@ -24,6 +24,7 @@ import { Subscription } from 'react-apollo';
 import ChangeLayer from '../GraphQLQueries/mutations';
 import GetChangedLayer from '../GraphQLQueries/subscription';
 import EditableLayerService from '../EditableLayerService';
+import Info from '../Info';
 
 const Map = () => {
   const [options, setOptions] = useState(null);
@@ -81,7 +82,6 @@ const Map = () => {
             <ImageOverlay url="http://localhost:3001/static/map2.jpg" bounds={bounds} />
           </BaseLayer>
         </LayersControl>
-        {/* Добавил отображение объектов через контейнер */}
         <EditableLayerService
           options={{
             draw: {
@@ -95,6 +95,9 @@ const Map = () => {
           }}
           children={() => alert('hi')}
         >
+          <div className="info">
+            <Info />
+          </div>
           <GetChangedLayer />
           {/* <Rectangle bounds={rectangle} color="red" />
           <Rectangle bounds={[[515, 436], [475, 397]]} color="red" /> */}
