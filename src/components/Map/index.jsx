@@ -33,6 +33,8 @@ const Map = () => {
   const [rectangle, setRectangle] = useState([[100, 100], [500, 200]]);
   const { data, loading, error } = useQuery(layerQuery);
 
+  const [orderInfo, setOrderInfo] = useState({});
+
   useEffect(() => {
     if (data) {
       setRectangle(data.layers[0].objects.types[0].format.rectangle);
@@ -96,9 +98,9 @@ const Map = () => {
           children={() => alert('hi')}
         >
           <div className="info">
-            <Info />
+            <Info orderInfo={orderInfo} />
           </div>
-          <GetChangedLayer />
+          <GetChangedLayer orderInfo={orderInfo} setOrderInfo={setOrderInfo} />
           {/* <Rectangle bounds={rectangle} color="red" />
           <Rectangle bounds={[[515, 436], [475, 397]]} color="red" /> */}
         </EditableLayerService>
